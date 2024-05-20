@@ -4,4 +4,6 @@ def add_integer(a, b):
 """
 >>> add_integer(1, 3)
 4
+>>> add_integer(1, "hello")
+TypeError: b must be an integer
 """
