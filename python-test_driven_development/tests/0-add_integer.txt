@@ -1,9 +1,13 @@
 0-add_integer.py
 
 def add_integer(a, b):
+
 """
 >>> add_integer(1, 3)
 4
 >>> add_integer(1, "hello")
-TypeError: b must be an integer
+TypeError: "b must be an integer"
+>>> add_integer("world", 3)
+TypeError: "a must be an integer"
+
 """
