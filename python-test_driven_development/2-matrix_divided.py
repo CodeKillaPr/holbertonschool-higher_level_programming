@@ -18,13 +18,8 @@ def matrix_divided(matrix, div):
     Raises:
             TypeError: If the matrix is not a matrix (list of lists) of integers/floats,
                                or if the matrix rows have different sizes.
-            ZeroDivisionError: If the division by zero is attempted.
-
-    Example:
-            matrix = [[1, 2, 3], [4, 5, 6]]
-            div = 2
-            result = matrix_divided(matrix, div)
-            # result = [[0.5, 1.0, 1.5], [2.0, 2.5, 3.0]]
+            TypeError: If the div is not a number.
+            ZeroDivisionError: If the div is zero.
     """
     if not isinstance(matrix, list) or len(matrix) == 0:
         raise TypeError(
