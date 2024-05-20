@@ -1,3 +1,7 @@
+0-add_integer.py
+
+def add_integer(a, b)
+
 """
 >>> add_integer = __import__('0-add_integer').add_integer
 >>> add_integer(2,3)
@@ -18,7 +22,7 @@ TypeError: a must be an integer
 >>> add_integer()
 Traceback (most recent call last):
 TypeError: add_integer() missing 1 required positional argument: 'a'
->>> add_integer( , 8):
+>>> add_integer({}, 8)
 Traceback (most recent call last):
 SyntaxError: invalid syntax
 """
