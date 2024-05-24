@@ -40,7 +40,7 @@ def shape_info(shape):
     print(f"Perimeter: {shape.perimeter()}")
 
 
-circle = Circle(5) or Circle(-5)
+circle = Circle(5)
 rectangle = Rectangle(4, 7)
 
 shape_info(circle)
