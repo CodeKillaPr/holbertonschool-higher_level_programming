@@ -14,6 +14,8 @@ class Shape(ABC):
 
 class Circle(Shape):
     def __init__(self, radius):
+        if radius < 0:
+            raise ValueError("Radius cannot be negative")
         self.radius = radius
 
     def area(self):
@@ -40,7 +42,7 @@ def shape_info(shape):
     print(f"Perimeter: {shape.perimeter()}")
 
 
-circle = Circle(5)
+circle = Circle(-5)  # Raises ValueError
 rectangle = Rectangle(4, 7)
 
 shape_info(circle)
