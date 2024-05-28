@@ -2,7 +2,7 @@
 """ la madre del que se copie """
 
 
-class student:
+class Student:
     """ la madre del que se copie"""
 
     def __init__(self, first_name, last_name, age):
