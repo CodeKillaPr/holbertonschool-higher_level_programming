@@ -13,4 +13,8 @@ class Student:
 
         def to_json(self):
             """ la madre del que se copie"""
-            return self.__dict__
+        return {
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'age': self.age
+        }
