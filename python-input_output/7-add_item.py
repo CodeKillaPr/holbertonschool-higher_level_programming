@@ -8,6 +8,12 @@ import os.path
 filename = "add_item.json"
 """ Check if the file exists, if it does,
 load the content of the file into my_list, if not, create an empty list"""
+
+
+def json(my_list, f):
+    pass
+
+
 if os.path.exists(filename):
     with open(filename, 'r') as f:
         my_list = json.load(f)
