@@ -10,7 +10,7 @@ filename = "add_item.json"
 load the content of the file into my_list, if not, create an empty list"""
 
 
-def json(my_list, f):
+def json(my_list, filename):
     pass
 
 
