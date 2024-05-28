@@ -19,7 +19,8 @@ class Student:
         """
         Retrieves a dictionary representation of the Student instance.
 
-        :return: A dictionary containing the student's first name, last name, and age.
+        :return: A dictionary containing
+        the student's first name, last name, and age.
         """
         return {
             'first_name': self.first_name,
