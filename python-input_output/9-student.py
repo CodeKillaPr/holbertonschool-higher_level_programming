@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-""" la madre del que se copie """
 
 
 class Student:

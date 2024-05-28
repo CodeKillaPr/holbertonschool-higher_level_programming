@@ -1,10 +1,7 @@
 #!/usr/bin/python3
 
-""" la madre del que se copie """
-
 
 def pascal_triangle(n):
-    """ la madre del que se copie """
 
     if n <= 0:
         return []
