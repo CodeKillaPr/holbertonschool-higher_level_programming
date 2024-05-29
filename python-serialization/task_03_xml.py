@@ -1,22 +1,16 @@
 import xml.etree.ElementTree as ET
-""" explore serialization and deserialization of XML data """
 
 
 def serialize_to_xml(dictionary, filename):
-    """
-    Serialize a Python dictionary into XML
-    format and save it to the given filename.
-
-    Parameters:
-    dictionary (dict): The dictionary to serialize.
-    filename (str): The filename where the XML data will be saved.
-    """
+    """ Create the root element of the XML tree """
     root = ET.Element("data")
 
+    """ Iterate over the dictionary and create elements for each key-value pair """
     for key, value in dictionary.items():
         item = ET.SubElement(root, key)
         item.text = str(value)
 
+    """ Create the XML tree and write it to the file """
     tree = ET.ElementTree(root)
     try:
         tree.write(filename, encoding='utf-8', xml_declaration=True)
@@ -27,29 +21,22 @@ def serialize_to_xml(dictionary, filename):
 
 
 def deserialize_from_xml(filename):
-    """
-    Deserialize XML data from a given filename into a Python dictionary.
-
-    Parameters:
-    filename (str): The filename from which to read the XML data.
-
-    Returns:
-    dict: The deserialized dictionary.
-    """
     try:
+        """ Parse the XML file and get the root element """
         tree = ET.parse(filename)
         root = tree.getroot()
-        dictionary = {child.tag: child.text for child in root}
+        dictionary = {}
 
-        for key, value in dictionary.items():
+        """ Iterate over the child elements of the root element """
+        for child in root:
+            value = child.text
             if value.isdigit():
-                dictionary[key] = int(value)
+                dictionary[child.tag] = int(value)
             else:
                 try:
-                    dictionary[key] = float(value)
+                    dictionary[child.tag] = float(value)
                 except ValueError:
-
-                    pass
+                    dictionary[child.tag] = value
 
         return dictionary
     except Exception as e:
