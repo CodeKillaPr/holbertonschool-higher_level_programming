@@ -4,8 +4,7 @@ import xml.etree.ElementTree as ET
 
 def serialize_to_xml(dictionary, filename):
     """
-    Serialize a Python dictionary into XML
-    format and save it to the given filename.
+    Serialize a Python dictionary into XML format and save it to the given filename.
 
     Parameters:
     dictionary (dict): The dictionary to serialize.
@@ -20,11 +19,10 @@ def serialize_to_xml(dictionary, filename):
     tree = ET.ElementTree(root)
     try:
         tree.write(filename, encoding='utf-8', xml_declaration=True)
+        return True
     except Exception as e:
         print(f"An error occurred while writing to the file: {e}")
         return False
-
-    return True
 
 
 def deserialize_from_xml(filename):
@@ -49,6 +47,7 @@ def deserialize_from_xml(filename):
                 try:
                     dictionary[key] = float(value)
                 except ValueError:
+
                     pass
 
         return dictionary
