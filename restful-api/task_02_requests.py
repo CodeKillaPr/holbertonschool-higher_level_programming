@@ -31,11 +31,10 @@ def fetch_and_save_posts():
 
         with open("posts.csv", "w", newline='', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+            writer.writeheader()
 
-        writer.writeheader()
-
-        for post in structured_post:
-            writer.writerow(post)
+            for post in structured_post:
+                writer.writerow(post)
 
         print("Data has been written to posts.csv successfully.")
     else:
