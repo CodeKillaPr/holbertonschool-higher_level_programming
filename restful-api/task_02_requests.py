@@ -17,10 +17,10 @@ def fetch_and_print_posts():
 
 
 def fetch_and_save_posts():
-    url = requests.get('https://jsonplaceholder.typicode.com/posts')
+    response = requests.get('https://jsonplaceholder.typicode.com/posts')
 
-    if url.status_code == 200:
-        posts = url.json()
+    if response.status_code == 200:
+        posts = response.json()
 
         structured_post = [
             {"id": post["id"], "title": post["title"], "body": post["body"]}
@@ -39,7 +39,7 @@ def fetch_and_save_posts():
 
         print("Data has been written to posts.csv successfully.")
     else:
-        print("Failed to fetch posts. Status code: {url.status_code}")
+        print("Failed to fetch posts. Status code")
 
 
 fetch_and_print_posts()
