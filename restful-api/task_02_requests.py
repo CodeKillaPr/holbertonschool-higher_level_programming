@@ -37,9 +37,9 @@ def fetch_and_save_posts():
         for post in structured_post:
             writer.writerow(post)
 
-        print(f"Data has been written to posts.csv successfully.")
+        print("Data has been written to posts.csv successfully.")
     else:
-        print(f"Failed to fetch posts. Status code: {url.status_code}")
+        print("Failed to fetch posts. Status code: {url.status_code}")
 
 
 fetch_and_print_posts()
