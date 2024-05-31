@@ -39,7 +39,6 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 "error": "Endpoint not found"
             }
             self.wfile.write(json.dumps(error_message).encode('utf-8'))
-            print(f"Undefined endpoint accessed: {self.path}")
 
 
 def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
