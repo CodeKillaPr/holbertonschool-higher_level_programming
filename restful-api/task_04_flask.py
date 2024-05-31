@@ -2,51 +2,46 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-# In-memory user data store
-users = {}
+users = {
+    "jane": {"username": "jane", "name": "Jane", "age": 28, "city": "Los Angeles"},
+    "john": {"username": "john", "name": "John", "age": 30, "city": "New York"}
+}
 
 
-@app.route("/")
+@app.route('/')
 def home():
     return "Welcome to the Flask API!"
 
 
-@app.route("/data")
-def data():
-    return jsonify(list(users.values()))
+@app.route('/data')
+def get_usernames():
+    return jsonify(list(users.keys()))
 
 
-@app.route("/status")
+@app.route('/status')
 def status():
     return "OK"
 
 
-@app.route("/users/<username>")
+@app.route('/users/<username>')
 def get_user(username):
-    if username in users:
-        return jsonify(users[username])
+    user = users.get(username)
+    if user:
+        return jsonify(user)
     else:
-        return "User not found", 404
+        return jsonify({"error": "User not found"}), 404
 
 
-@app.route("/add_user", methods=["POST"])
+@app.route('/add_user', methods=['POST'])
 def add_user():
-    data = request.json
+    data = request.get_json()
     username = data.get("username")
-    if not username:
-        return jsonify({"error": "Username is required"}), 400
+    if not username or username in users:
+        return jsonify({"error": "Username is required and must be unique"}), 400
+
     users[username] = data
     return jsonify({"message": "User added", "user": data}), 201
 
 
-@app.route("/delete_user/<username>", methods=["DELETE"])
-def delete_user(username):
-    if username in users:
-        del users[username]
-        return jsonify({"message": "User deleted"}), 200
-    else:
-        return "User not found", 404
-
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
