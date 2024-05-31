@@ -1,8 +1,17 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, requests, request
 
 app = Flask(__name__)
 
-users = {}
+user_data = {"username": "testuser", "other": "data"}
+response = requests.post("http://localhost:5000/add_user", json=user_data)
+print(response.json())
+
+response = requests.get("http://localhost:5000/data")
+users = response.json()
+print(users)
+
+user_found = any(user["username"] == "testuser" for user in users)
+assert user_found, "User not found in data"
 
 
 @app.route("/")
