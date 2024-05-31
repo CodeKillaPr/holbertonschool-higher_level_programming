@@ -46,8 +46,8 @@ def login():
         return jsonify({"message": "Missing username or password"}), 400
     user = users.get(username)
     if user and check_password_hash(user["password"], password):
-        access_token = create_access_token(identity={'username': username,
-                                                     'role': user['role']})
+        access_token = create_access_token(
+            identity={'username': username, 'role': user['role']})
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({"message": "Bad username or password"}), 401
@@ -62,10 +62,9 @@ def jwt_protected():
 @app.route('/admin-only')
 @jwt_required()
 def admin_only():
-    current_username = get_jwt_identity()
-    current_user = users.get(current_username)
-    if current_user['role'] != 'admin':
-        return jsonify({"403 Forbidden"}), 403
+    identity = get_jwt_identity()
+    if identity['role'] != 'admin':
+        return jsonify({"error": "Admin access required"}), 403
     return "Admin Access: Granted"
 
 
