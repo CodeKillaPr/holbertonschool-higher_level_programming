@@ -22,7 +22,9 @@ class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            status = {"status": "OK"}
+            status = {
+                "status": "OK"
+            }
             self.wfile.write(json.dumps(status).encode('utf-8'))
 
         elif self.path == '/info':
@@ -37,8 +39,10 @@ class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
             self.send_response(404)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            error_message = {"error": "Endpoint not found"}
-            self.wfile.write(json.dumps(error_message).encode('utf-8'))
+            error = {
+                "error": "Endpoint not found"
+            }
+            self.wfile.write(json.dumps(error).encode('utf-8'))
 
 
 def run(server_class=HTTPServer, handler_class=CustomHTTPRequestHandler, port=8000):
