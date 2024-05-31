@@ -1,51 +1,60 @@
 #!/usr/bin/python3
+"""A simple api with Flask"""
+from flask import Flask, jsonify, request
 
-from flask import Flask
-from flask import jsonify
-from flask import request
 
 app = Flask(__name__)
 
-users = {"jane": {"name": "Jane", "age": 28, "city": "Los Angeles"}}
+# In-memory storage for users
+users = {
+    "jane": {"name": "Jane", "age": 28, "city": "Los Angeles"}
+}
+
+# Root endpoint
 
 
-@app.route("/")
+@app.route('/')
 def home():
-    return "Welcome to the Flask API!."
+    return "Welcome to the Flask API!"
+
+# Endpoint to return status
 
 
-@app.route("/data")
-def data():
-    return jsonify(list(users.keys()))
-
-
-@app.route("/status")
+@app.route('/status')
 def status():
     return "OK"
 
+# Endpoint to return all usernames
 
-@app.route("/users/<username>")
-def user_dict(username):
-    if username in users:
-        user = users[username]
-        user['username'] = username
-        return jsonify(users[username])
+
+@app.route('/data')
+def get_usernames():
+    usernames = list(users.keys())
+    return jsonify(usernames)
+
+# Endpoint to return user data for a specific username
+
+
+@app.route('/users/<username>')
+def get_user(username):
+    user = users.get(username)
+    if user:
+        return jsonify(user)
     else:
-        return "404 Not Found", 404
+        return "User not found", 404
+
+# Endpoint to add a new user
 
 
-@app.route("/add_user", methods=['POST'])
+@app.route('/add_user', methods=['POST'])
 def add_user():
-    user_data = request.get_json()
-    username = user_data['username']
-    users[username] = {
-        'name': user_data['name'],
-        'age': user_data['age'],
-        'city': user_data['city']
-    }
-    user = users[username]
-    user['username'] = username
-    return jsonify({"message": "User added", "user": user})
+    data = request.get_json()
+    if 'username' in data:
+        username = data['username']
+        users[username] = data
+        return jsonify({"message": "User added", "user": data})
+    else:
+        return "Missing username in request", 400
 
 
 if __name__ == "__main__":
