@@ -1,17 +1,9 @@
-from flask import Flask, jsonify, requests, request
+from flask import Flask, jsonify, request
+import requests
 
 app = Flask(__name__)
 
-user_data = {"username": "testuser", "other": "data"}
-response = requests.post("http://localhost:5000/add_user", json=user_data)
-print(response.json())
-
-response = requests.get("http://localhost:5000/data")
-users = response.json()
-print(users)
-
-user_found = any(user["username"] == "testuser" for user in users)
-assert user_found, "User not found in data"
+users = {}
 
 
 @app.route("/")
@@ -46,10 +38,12 @@ def add_user():
 
 
 @app.route("/delete_user/<username>", methods=["DELETE"])
-def test_get_user_not_found():
-    response = app.test_client().get("/users/doesnotexist")
-    assert response.status_code == 404
-    assert response.get_json() == "User not found"
+def delete_user(username):
+    if username in users:
+        del users[username]
+        return jsonify({"message": "User deleted"}), 200
+    else:
+        return "User not found", 404
 
 
 if __name__ == "__main__":
