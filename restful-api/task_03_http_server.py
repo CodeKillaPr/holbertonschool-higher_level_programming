@@ -20,7 +20,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 "age": 30,
                 "city": "New York"
             }
-            self.wfile.write(json.dumps(data).encode('utf-8'))
+            response = json.dumps(data).encode('utf-8')
+            print(f"Response to /data: {response}")
+            self.wfile.write(response)
 
         elif self.path == '/status':
             self.send_response(200)
@@ -29,7 +31,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             status = {
                 "status": "OK"
             }
-            self.wfile.write(json.dumps(status).encode('utf-8'))
+            response = json.dumps(status).encode('utf-8')
+            print(f"Response to /status: {response}")
+            self.wfile.write(response)
 
         else:
             self.send_response(404)
@@ -38,7 +42,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             error_message = {
                 "error": "Endpoint not found"
             }
-            self.wfile.write(json.dumps(error_message).encode('utf-8'))
+            response = json.dumps(error_message).encode('utf-8')
+            print(f"Response to undefined endpoint {self.path}: {response}")
+            self.wfile.write(response)
 
 
 def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
