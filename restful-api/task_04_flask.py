@@ -36,5 +36,12 @@ def add_user():
     return jsonify({"message": "User added", "user": data}), 201
 
 
+@app.route("/delete_user/<username>", methods=["DELETE"])
+def test_get_user_not_found():
+    response = app.test_client().get("/users/doesnotexist")
+    assert response.status_code == 404
+    assert response.get_json() == "User not found"
+
+
 if __name__ == "__main__":
     app.run(debug=True)
