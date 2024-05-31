@@ -1,48 +1,67 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+# In-memory storage for users
 users = {
-    "jane": {"username": "jane", "name": "Jane", "age": 28, "city": "Los Angeles"},
-    "john": {"username": "john", "name": "John", "age": 30, "city": "New York"}
+    "jane": {"username": "jane", "name": "Jane", "age": 28, "city": "Los Angeles"}
 }
+
+# Root endpoint
 
 
 @app.route('/')
-def hello():
-    return 'Welcome to the Flask API!'
+def home():
+    return "Welcome to the Flask API!"
+
+# Endpoint to return JSON data
 
 
 @app.route('/data')
-def data():
+def get_data():
     usernames = list(users.keys())
     return jsonify(usernames)
+
+# Endpoint to return status
 
 
 @app.route('/status')
 def status():
-    return 'OK'
+    return "OK"
+
+# Endpoint to get user details by username
 
 
 @app.route('/users/<username>')
 def get_user(username):
-    if username in users:
-        return jsonify(users[username])
+    user = users.get(username)
+    if user:
+        return jsonify(user)
     else:
-        return jsonify({"error": "User not found"})
+        return jsonify({"error": "User not found"}), 404
+
+# Endpoint to add a new user
 
 
 @app.route('/add_user', methods=['POST'])
 def add_user():
-    data = request.get_json()
-    username = data.get('username')
-    name = data.get('name')
-    age = data.get('age')
-    city = data.get('city')
-    new_user = {"username": username, "name": name, "age": age, "city": city}
-    users[username] = new_user
-    return jsonify({"message": "User added", "user": new_user})
+    if not request.json or 'username' not in request.json:
+        return jsonify({"error": "Invalid data"}), 400
+
+    username = request.json['username']
+    if username in users:
+        return jsonify({"error": "User already exists"}), 400
+
+    user_data = {
+        "username": username,
+        "name": request.json.get("name"),
+        "age": request.json.get("age"),
+        "city": request.json.get("city")
+    }
+    users[username] = user_data
+    return jsonify({"message": "User added", "user": user_data}), 201
 
 
-if __name__ == '__main__':
-    app.run(port=8000)
+# Run the development server
+if __name__ == "__main__":
+    app.run(debug=True, port=8000)
