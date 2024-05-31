@@ -1,47 +1,52 @@
-from flask import Flask, jsonify, request
+#!/usr/bin/python3
+
+from flask import Flask
+from flask import jsonify
+from flask import request
 
 app = Flask(__name__)
 
-# In-memory storage for users
-users = {
-    "jane": {"username": "jane", "name": "Jane", "age": 28, "city": "Los Angeles"},
-    "john": {"username": "john", "name": "John", "age": 30, "city": "New York"}
-}
+users = {"jane": {"name": "Jane", "age": 28, "city": "Los Angeles"}}
 
 
-@app.route('/')
+@app.route("/")
 def home():
-    return "Welcome to the Flask API!"
+    return "Welcome to the Flask API!."
 
 
-@app.route('/data')
-def get_data():
+@app.route("/data")
+def data():
     return jsonify(list(users.keys()))
 
 
-@app.route('/status')
+@app.route("/status")
 def status():
     return "OK"
 
 
-@app.route('/users/<username>')
-def get_user(username):
-    user = users.get(username)
-    if user:
-        return jsonify(user)
+@app.route("/users/<username>")
+def user_dict(username):
+    if username in users:
+        user = users[username]
+        user['username'] = username
+        return jsonify(users[username])
     else:
-        return jsonify({"error": "User not found"}), 404
+        return "404 Not Found", 404
 
 
-@app.route('/add_user', methods=['POST'])
+@app.route("/add_user", methods=['POST'])
 def add_user():
-    new_user = request.get_json()
-    username = new_user.get("username")
-    if not username or username in users:
-        return jsonify({"error": "Invalid or duplicate username"}), 400
-    users[username] = new_user
-    return jsonify({"message": "User added", "user": new_user})
+    user_data = request.get_json()
+    username = user_data['username']
+    users[username] = {
+        'name': user_data['name'],
+        'age': user_data['age'],
+        'city': user_data['city']
+    }
+    user = users[username]
+    user['username'] = username
+    return jsonify({"message": "User added", "user": user})
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
