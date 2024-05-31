@@ -52,5 +52,14 @@ def add_user():
     return jsonify(new_user), 201
 
 
+def test_add_duplicate_user(client):
+    new_user = {"username": "testuser", "email": "testuser@example.com"}
+    response = client.post("/add_user", json=new_user)
+    assert response.status_code == 201
+    response = client.post("/add_user", json=new_user)
+    assert response.status_code == 400
+    assert response.get_json() == {"error": "User already exists"}
+
+
 if __name__ == "__main__":
     app.run()
