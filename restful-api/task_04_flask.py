@@ -1,11 +1,18 @@
-from flask import Flask, jsonify, request
-
+from flask import Flask, request, jsonify, requests, BASE_URL
 app = Flask(__name__)
 
 users = {
     "jane": {"username": "jane", "name": "Jane", "age": 28, "city": "Los Angeles"},
     "john": {"username": "john", "name": "John", "age": 30, "city": "New York"}
 }
+
+
+def test_add_user_no_username():
+    user = {"name": "John Doe", "email": "john@example.com"}
+    response = requests.post(f"{BASE_URL}/add_user", json=user)
+    assert response.status_code == 400
+    assert response.json()[
+        "error"] == "Username is required and must be unique"
 
 
 @app.route('/')
