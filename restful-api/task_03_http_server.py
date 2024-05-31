@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
-class SimpleHandler(BaseHTTPRequestHandler):
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == '/':
@@ -41,7 +41,7 @@ class SimpleHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(error_message).encode('utf-8'))
 
 
-def run(server_class=HTTPServer, handler_class=SimpleHandler, port=8000):
+def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print(f'Starting httpd server on port {port}...')
