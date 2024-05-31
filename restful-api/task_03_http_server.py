@@ -28,6 +28,15 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             status = {"status": "OK"}
             self.wfile.write(json.dumps(status).encode('utf-8'))
 
+        # /info endpoint response
+        elif self.path == '/info':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            info = {"version": "1.0",
+                    "description": "A simple API built with http.server"}
+            self.wfile.write(json.dumps(info).encode('utf-8'))
+
         # Undefined endpoints response
         else:
             self.send_response(404)
