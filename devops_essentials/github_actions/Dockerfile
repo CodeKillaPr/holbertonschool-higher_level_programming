@@ -1,11 +1,20 @@
-# Use the same Alpine base image as the previous exercise
-FROM alpine:latest
+# Usar la imagen base de Ubuntu
+FROM ubuntu:latest
 
-# Install curl package
-RUN apk add --no-cache curl
+# Establecer el directorio de trabajo dentro del contenedor
+WORKDIR /app
 
-# Copy the configuration file to the /app directory in the container
-COPY config.txt /app/config.txt
+# Instalar las dependencias necesarias
+RUN apt-get update && apt-get install -y \
+    curl \
+    nano \
+    && rm -rf /var/lib/apt/lists/*
 
-# Specify the default command to run when the container starts
-CMD ["sh"]
+# Copiar los archivos de la aplicación al contenedor
+COPY . .
+
+# Exponer el puerto en el que la aplicación va a correr (opcional)
+EXPOSE 8080
+
+# Comando para ejecutar la aplicación
+CMD ["bash"]
