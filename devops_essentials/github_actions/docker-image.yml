@@ -10,18 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Clonar el repositorio
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Construir la imagen de Docker
       - name: Build Docker image
-        run: docker build -t ghcr.io/${{ github.repository_owner }}/my-image-name:$(date +%s) .
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/my-image-name:${{ github.sha }} .
 
+      # Iniciar sesión en el GitHub Container Registry
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
 
+      # Push de la imagen de Docker al GitHub Container Registry
       - name: Push Docker image
-        run: docker push ghcr.io/${{ github.repository_owner }}/my-image-name:$(date +%s)
+        run: docker push ghcr.io/${{ github.repository_owner }}/my-image-name:${{ github.sha }}
