@@ -1,6 +1,6 @@
 name: Build and Push Docker Image
 
-on: 
+on:
   push:
     branches:
       - main  # Cambia 'main' por la rama que prefieras
@@ -28,7 +28,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ghcr.io/${{ github.repository_owner | toLowerCase }}/my-image:latest
+        tags: ghcr.io/${{ github.repository_owner.toLowerCase }}/my-image:latest
 
     - name: Log out from GitHub Container Registry
       run: docker logout ghcr.io
