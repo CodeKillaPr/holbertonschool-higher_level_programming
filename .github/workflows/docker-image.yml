@@ -6,10 +6,13 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Convert GitHub actor to lower case
         id: actor-lowercase
         run: echo "::set-output name=actor::$(echo ${{ github.actor }} | awk '{print tolower($0)}')"
