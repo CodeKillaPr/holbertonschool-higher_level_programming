@@ -1,21 +1,11 @@
-# Usar una imagen base oficial de Node.js
-FROM node:14
+# Use the same Alpine base image as the previous exercise
+FROM alpine:latest
 
-# Crear y establecer el directorio de trabajo
-WORKDIR /app
+# Install curl package
+RUN apk add --no-cache curl
 
-# Copiar package.json y package-lock.json
-COPY package*.json ./
+# Copy the configuration file to the /app directory in the container
+COPY config.txt /app/config.txt
 
-# Instalar las dependencias
-RUN npm install
-
-# Copiar el resto del código de la aplicación
-COPY . .
-
-# Exponer el puerto que la aplicación utilizará
-EXPOSE 8080
-
-# Comando para ejecutar la aplicación
-CMD ["node", "app.js"]
-
+# Specify the default command to run when the container starts
+CMD ["sh"]
