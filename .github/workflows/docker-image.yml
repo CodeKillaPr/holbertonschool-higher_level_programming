@@ -26,7 +26,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./Dockerfile
           push: true
           tags: ghcr.io/codekillapr/holbertonschool-higher_level_programming:latest
