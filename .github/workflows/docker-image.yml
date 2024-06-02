@@ -28,4 +28,4 @@ jobs:
         with:
           context: ./Dockerfile
           push: true
-          tags: ghcr.io/codekillapr/holbertonschool-higher_level_programming/:latest
+          tags: ghcr.io/codekillapr/holbertonschool-higher_level_programming:latest
