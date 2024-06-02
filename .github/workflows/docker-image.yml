@@ -27,5 +27,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          file: ./Dockerfile
           push: true
           tags: ghcr.io/codekillapr/holbertonschool-higher_level_programming:latest
