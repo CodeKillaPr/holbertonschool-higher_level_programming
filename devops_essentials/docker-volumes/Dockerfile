@@ -1,13 +1,7 @@
-# Usa una imagen base, por ejemplo, una imagen de Ubuntu
-FROM ubuntu:latest
+# Use the Alpine base image
+FROM alpine:latest
 
-# Instala cualquier dependencia necesaria
-RUN apt-get update && apt-get install -y \
-    nano \
-    && rm -rf /var/lib/apt/lists/*
-
-# Crea un volumen en /data
 VOLUME /data
 
-# Establece el punto de entrada del contenedor
-CMD ["bash"]
+# Command to run when the container starts
+CMD tail -f /dev/null
