@@ -1,2 +1,3 @@
 -- update data
-UPDATE `second_table` SET `score`<=5 WHERE `second_table`.`name`="Bob";
+DELETE FROM `second_table`
+WHERE `score` <= 5;
