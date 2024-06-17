@@ -1,2 +1,2 @@
 -- create databases if not exists
-CREATE DATABASE IF NOT EXISTS `{{ .DatabaseName }}`;
+CREATE DATABASE IF NOT EXISTS `{{ .hbtn_0c_0 }}`;
