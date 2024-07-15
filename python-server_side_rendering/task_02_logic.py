@@ -1,5 +1,5 @@
-from flask import Flask, render_template
 import json
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -7,9 +7,11 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+
 @app.route('/about')
 def about():
-	return render_template('about.html')
+    return render_template('about.html')
+
 
 @app.route('/contact')
 def contact():
@@ -18,14 +20,11 @@ def contact():
 
 @app.route('/items')
 def items():
-    try:
-        with open('items.json', 'r') as file:
-            data = json.load(file)
-            items_list = data.get("items", [])
-    except FileNotFoundError:
-        items_list = []
+    with open('items.json') as json_file:
+        data = json.load(json_file)
+    item_list = data.get('items', [])
+    return render_template('items.html', items = item_list)
 
-    return render_template('items.html', items=items_list)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True, port=5000)

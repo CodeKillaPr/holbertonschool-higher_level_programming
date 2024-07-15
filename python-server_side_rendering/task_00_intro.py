@@ -1,34 +1,53 @@
+#!/usr/bin/python3
 import os
 
 def generate_invitations(template, attendees):
-
+    # checking if template is a string and attendees is a dect
     if not isinstance(template, str):
-        print("Error: Template must be a string.")
+        print("Error: template should be a string")
+        return  # Terminate the function if template is not a string
+
+    if not isinstance(attendees, list):
+        print("Error: attendees should be a list")
         return
 
-    if not all(isinstance(attendee, dict) for attendee in attendees):
-        print("Error: Attendees must be in a list of dictionaries.")
+    if not all(isinstance(d, dict) for d in attendees):
+        print("Error: attendees should be a list of dictionaries")
         return
 
+    # check if template and attendees empty
     if not template:
-        print("Template is empty, no output files generated.")
+        print("Error: Template is empty, no output files generated.")
         return
 
     if not attendees:
-        print("No data provided, no output files generated.")
+        print("Error: No data provided, no output files generated.")
         return
 
-    for index, attendee in enumerate(attendees, start=1):
-        attendee = attendee.copy()
-        missing_keys = [key for key in ['event_date', 'event_location', 'event_title'] if key not in attendee]
-        for key in missing_keys:
-            print(f"Warning: Replacing missing data '{key}' with 'N/A'.")
-            attendee[key] = "N/A"
-        try:
-            invitation = template.format(**attendee)
-        except KeyError as e:
-            print(f"Warning: Unexpected missing data {e}")
-            attendee[str(e)] = "N/A"
-            invitation = template.format(**attendee)
-        with open(f"output_{index}.txt", "w") as file:
-            file.write(invitation)
+    # Process Each Attendee:
+    i = 1
+
+    for attendee in attendees:
+        processed_template = template
+
+        # Replace placeholders in the template
+        for key in ["name", "event_title", "event_date", "event_location"]:
+            value = ""
+            to_replace = "{" + key + "}"
+
+            if key not in attendee:
+                value = "N/A"
+            else:
+                value = attendee[key]
+
+            if value == "" or value is None:
+                value = "N/A"
+
+            processed_template = processed_template.replace(to_replace, value)
+
+        f = open("output_" + str(i) + ".txt", "a")
+        f.write(processed_template)
+        f.close()
+
+        # Increment index counter
+        i += 1
